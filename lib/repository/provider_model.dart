@@ -11,6 +11,7 @@ class ProviderModel extends ChangeNotifier {
   Dao? dao;
   //local db
   DaoDb? daoDb;
+  DataFlow? dataFlow;
 
   ProviderModel(Dao? dao) {
     this.dao = dao;
@@ -20,14 +21,20 @@ class ProviderModel extends ChangeNotifier {
   WeatherData? get weatherData => _weatherData;
 
   Future<DaoDb?> getWeatherData() async {
-    isLoading = true;
-    notifyListeners();
 
-    final response = await _service.fetchWeatherData();
-    _weatherData = response;
+     daoDb = DaoDb(await dao?.weatherDao.findWeatherData(), await dao?.coordDao.findCoordData(), await dao?.cloudsDao.findCloudsData(), await dao?.windDao.findWindData(), await dao?.mainDao.findMainData(), await dao?.sysDao.findSysData(), await dao?.weatherTableDao.findWeather());
+
+     // if (daoDb == null) {
+     //   _weatherData = await _service.fetchWeatherData();
+     // }
+     dataFlow = await _service.fetchWeatherData();
+
+    print("hello");
+     print(dataFlow?.statuscode);
 
 
-    if(weatherData != null) {
+    if(_weatherData != null) {
+
       print("weather data not null");
       //delete data
       if (await dao?.cloudsDao.tableIsEmpty != 0) {
@@ -61,33 +68,23 @@ class ProviderModel extends ChangeNotifier {
       await dao?.sysDao.insertSysData(weatherData!.sys!);
       await dao?.weatherTableDao.insertWeather(weatherData!.weather![0]);
 
-
-      //assign
-      // daoDb?.coordDb = await dao?.coordDao.findCoordData();
-      // daoDb?.weatherDataDb = await dao?.weatherDao.findWeatherData();
-      // daoDb?.cloudsDb = await dao?.cloudsDao.findCloudsData();
-      // daoDb?.windDb = await dao?.windDao.findWindData();
-      // daoDb?.mainClassDb = await dao?.mainDao.findMainData();
-      // daoDb?.sysDb = await dao?.sysDao.findSysData();
-      // daoDb?.weatherDb = await dao?.weatherTableDao.findWeather();
-
       daoDb = DaoDb(await dao?.weatherDao.findWeatherData(), await dao?.coordDao.findCoordData(), await dao?.cloudsDao.findCloudsData(), await dao?.windDao.findWindData(), await dao?.mainDao.findMainData(), await dao?.sysDao.findSysData(), await dao?.weatherTableDao.findWeather());
 
       print(daoDb?.coordDb?.lan);
+      isLoading = false;
+      notifyListeners();
     } else {
+
       print("weather is null");
-      daoDb?.coordDb = await dao?.coordDao.findCoordData();
-      daoDb?.weatherDataDb = await dao?.weatherDao.findWeatherData();
-      daoDb?.cloudsDb = await dao?.cloudsDao.findCloudsData();
-      daoDb?.windDb = await dao?.windDao.findWindData();
-      daoDb?.mainClassDb = await dao?.mainDao.findMainData();
-      daoDb?.sysDb = await dao?.sysDao.findSysData();
-      daoDb?.weatherDb = await dao?.weatherTableDao.findWeather();
+      daoDb = DaoDb(await dao?.weatherDao.findWeatherData(), await dao?.coordDao.findCoordData(), await dao?.cloudsDao.findCloudsData(), await dao?.windDao.findWindData(), await dao?.mainDao.findMainData(), await dao?.sysDao.findSysData(), await dao?.weatherTableDao.findWeather());
+
+      isLoading = true;
+      notifyListeners();
     }
 
 
-    isLoading = false;
-    notifyListeners();
+
+
     return daoDb;
   }
 }

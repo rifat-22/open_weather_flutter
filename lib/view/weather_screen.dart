@@ -15,7 +15,7 @@ import '../models/sys.dart';
 import '../models/weather_data.dart';
 import '../models/wind.dart';
 import '../repository/repo_to_db.dart';
-import '../repository/weather_model.dart';
+
 
 class WeatherScreen extends StatefulWidget {
   final Dao dao;
@@ -176,12 +176,12 @@ class _WeatherScreenState
           sunrise = "";
         }
 
-        if (value.isLoading) {
-          return const Center(
-            child: CircularProgressIndicator(),
-          );
-
-        }
+        // if (value.isLoading) {
+        //   // return const Center(
+        //   //   child: CircularProgressIndicator(),
+        //   // );
+        //
+        // }
         return Padding(
           padding:
           const EdgeInsets.all(8.0),

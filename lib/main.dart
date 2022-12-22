@@ -36,10 +36,12 @@ class MyApp extends StatelessWidget {
     return ChangeNotifierProvider(
       create: (context) => ProviderModel(dao),
       child: MaterialApp(
+        routes: {
+          '/': (context) => WeatherScreen(Key('db_data'), dao),
+        },
         theme: ThemeData(
           primarySwatch: Colors.blue,
         ),
-        home: WeatherScreen(Key('db_data'), dao),
       ),
     );
   }
