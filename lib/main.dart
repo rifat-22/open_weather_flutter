@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:weather_app/repository/provider_model.dart';
+import 'package:weather_app/repository/repo_to_db.dart';
 
 import 'database_dao/database.dart';
 import 'view/weather_screen.dart';
@@ -7,38 +10,37 @@ Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   final database = await $FloorAppDatabase.databaseBuilder('app_database.db').build();
 
-  //initialize
-  final coordDao = database.coordDao;
-  final weatherDao = database.weatherDataDao;
-  final cloudsDao = database.cloudsDao;
-  final windDao = database.windDao;
-  final mainDao = database.mainDao;
-  final sysDao = database.sysDao;
-  final weatherTableDao = database.weatherDao;
 
-  runApp(MyApp(coordDao, weatherDao, cloudsDao, windDao, mainDao, sysDao, weatherTableDao));
+
+  //initialize
+  // dao.coordDao = database.coordDao;
+  // dao.weatherDao = database.weatherDataDao;
+  // dao.cloudsDao = database.cloudsDao;
+  // dao.windDao = database.windDao;
+  // dao.mainDao = database.mainDao;
+  // dao.sysDao = database.sysDao;
+  // dao.weatherTableDao = database.weatherDao;
+
+
+  runApp(MyApp(Dao(database)));
 }
 
 class MyApp extends StatelessWidget {
-  MyApp(this.coordDao, this.weatherDao, this.cloudsDao, this.windDao, this.mainDao, this.sysDao, this.weatherTableDao);
+  MyApp(this.dao);
 
-  final coordDao;
-  final weatherDao;
-  final cloudsDao;
-  final windDao;
-  final mainDao;
-  final sysDao;
-  final weatherTableDao;
+   Dao dao;
 
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
+    return ChangeNotifierProvider(
+      create: (context) => ProviderModel(dao),
+      child: MaterialApp(
+        theme: ThemeData(
+          primarySwatch: Colors.blue,
+        ),
+        home: WeatherScreen(Key('db_data'), dao),
       ),
-      home: WeatherScreen(Key('db_data'), coordDao, weatherDao , cloudsDao, windDao, mainDao, sysDao, weatherTableDao),
     );
   }
 }
