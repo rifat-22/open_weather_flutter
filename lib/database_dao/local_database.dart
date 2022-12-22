@@ -14,13 +14,4 @@ class LocalDatabase {
   MainClass? mainClassDb;
   Sys? sysDb;
   Weather? weatherDb;
-  // insertData(WeatherData weatherDataDb, Coord coordDb, Clouds cloudsDb, Wind? windDb, MainClass mainClassDb, Sys sysDb, Weather weatherDb){
-  //   this.weatherDataDb = weatherDataDb;
-  //   this.coordDb = coordDb;
-  //   this.cloudsDb = cloudsDb;
-  //   this.windDb = windDb;
-  //   this.mainClassDb = mainClassDb;
-  //   this.sysDb = sysDb;
-  //   this.weatherDb = weatherDb;
-  // }
 }

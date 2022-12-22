@@ -1,6 +1,3 @@
-// database.dart
-
-// required package imports
 import 'dart:async';
 import 'package:floor/floor.dart';
 import 'package:sqflite/sqflite.dart' as sqflite;
@@ -20,11 +17,17 @@ import 'package:weather_app/models/wind.dart';
 import 'coord_dao.dart';
 import 'weather_data_dao.dart';
 
-
-
 part 'database.g.dart'; // the generated code will be there
 
-@Database(version: 1, entities: [Coord, WeatherData, Clouds, Wind, MainClass, Sys, Weather])
+@Database(version: 1, entities: [
+  Coord,
+  WeatherData,
+  Clouds,
+  Wind,
+  MainClass,
+  Sys,
+  Weather
+])
 abstract class AppDatabase extends FloorDatabase {
   CoordDao get coordDao;
   WeatherDataDao get weatherDataDao;

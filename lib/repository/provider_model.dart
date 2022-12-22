@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:weather_app/models/weather_data.dart';
+
 import 'package:weather_app/repository/repo_to_db.dart';
 
 import 'package:weather_app/repository/weather_repository.dart';
@@ -11,79 +11,118 @@ class ProviderModel extends ChangeNotifier {
   Dao? dao;
   //local db
   DaoDb? daoDb;
-  DataFlow? dataFlow;
+  DataFlow? _dataFlow;
 
   ProviderModel(Dao? dao) {
     this.dao = dao;
   }
 
-  WeatherData? _weatherData;
-  WeatherData? get weatherData => _weatherData;
+  DataFlow? get dataFlow => _dataFlow;
 
   Future<DaoDb?> getWeatherData() async {
+    int x = 0;
 
-     daoDb = DaoDb(await dao?.weatherDao.findWeatherData(), await dao?.coordDao.findCoordData(), await dao?.cloudsDao.findCloudsData(), await dao?.windDao.findWindData(), await dao?.mainDao.findMainData(), await dao?.sysDao.findSysData(), await dao?.weatherTableDao.findWeather());
+    try {
+      _dataFlow =
+          await _service.fetchWeatherData();
+      print("hello");
+      print(dataFlow?.statuscode);
 
-     // if (daoDb == null) {
-     //   _weatherData = await _service.fetchWeatherData();
-     // }
-     dataFlow = await _service.fetchWeatherData();
+      if (dataFlow?.statuscode == 200) {
+        print("weather data not null");
+        //delete data
+        if (await dao?.cloudsDao.tableIsEmpty !=
+            0) {
+          await dao?.coordDao.deleteTasks();
+        }
+        if (await dao?.weatherDao.tableIsEmpty !=
+            0) {
+          await dao?.weatherDao.deleteTasks();
+        }
+        if (await dao?.cloudsDao.tableIsEmpty !=
+            0) {
+          await dao?.cloudsDao.deleteTasks();
+        }
+        if (await dao?.windDao.tableIsEmpty !=
+            0) {
+          await dao?.windDao.deleteTasks();
+        }
+        if (await dao?.mainDao.tableIsEmpty !=
+            0) {
+          await dao?.mainDao.deleteTasks();
+        }
+        if (await dao?.sysDao.tableIsEmpty != 0) {
+          await dao?.sysDao.deleteTasks();
+        }
+        if (await dao
+                ?.weatherTableDao.tableIsEmpty !=
+            0) {
+          await dao?.weatherTableDao
+              .deleteTasks();
+        }
 
-    print("hello");
-     print(dataFlow?.statuscode);
+        //insert data
+        await dao?.coordDao.insertCoordData(
+            dataFlow!.weatherData!.coord!);
+        await dao?.weatherDao.insertWeatherData(
+            dataFlow!.weatherData!);
+        await dao?.cloudsDao.insertCloudsData(
+            dataFlow!.weatherData!.clouds!);
+        await dao?.windDao.insertWindData(
+            dataFlow!.weatherData!.wind!);
+        await dao?.mainDao.insertMainData(
+            dataFlow!.weatherData!.main!);
+        await dao?.sysDao.insertSysData(
+            dataFlow!.weatherData!.sys!);
+        await dao?.weatherTableDao.insertWeather(
+            dataFlow!.weatherData!.weather![0]);
 
+        daoDb = DaoDb(
+            await dao?.weatherDao
+                .findWeatherData(),
+            await dao?.coordDao.findCoordData(),
+            await dao?.cloudsDao.findCloudsData(),
+            await dao?.windDao.findWindData(),
+            await dao?.mainDao.findMainData(),
+            await dao?.sysDao.findSysData(),
+            await dao?.weatherTableDao
+                .findWeather());
 
-    if(_weatherData != null) {
+        print(daoDb?.coordDb?.lan);
+        isLoading = false;
+        notifyListeners();
+      } else {
+        print("weather is null");
+        daoDb = DaoDb(
+            await dao?.weatherDao
+                .findWeatherData(),
+            await dao?.coordDao.findCoordData(),
+            await dao?.cloudsDao.findCloudsData(),
+            await dao?.windDao.findWindData(),
+            await dao?.mainDao.findMainData(),
+            await dao?.sysDao.findSysData(),
+            await dao?.weatherTableDao
+                .findWeather());
 
-      print("weather data not null");
-      //delete data
-      if (await dao?.cloudsDao.tableIsEmpty != 0) {
-        await dao?.coordDao.deleteTasks();
+        isLoading = true;
+        notifyListeners();
       }
-      if (await dao?.weatherDao.tableIsEmpty != 0) {
-        await dao?.weatherDao.deleteTasks();
-      }
-      if (await dao?.cloudsDao.tableIsEmpty != 0) {
-        await dao?.cloudsDao.deleteTasks();
-      }
-      if (await dao?.windDao.tableIsEmpty != 0) {
-        await dao?.windDao.deleteTasks();
-      }
-      if (await dao?.mainDao.tableIsEmpty != 0) {
-        await dao?.mainDao.deleteTasks();
-      }
-      if (await dao?.sysDao.tableIsEmpty != 0) {
-        await dao?.sysDao.deleteTasks();
-      }
-      if (await dao?.weatherTableDao.tableIsEmpty != 0) {
-        await dao?.weatherTableDao.deleteTasks();
-      }
-
-      //insert data
-      await dao?.coordDao.insertCoordData(weatherData!.coord!);
-      await dao?.weatherDao.insertWeatherData(weatherData!);
-      await dao?.cloudsDao.insertCloudsData(weatherData!.clouds!);
-      await dao?.windDao.insertWindData(weatherData!.wind!);
-      await dao?.mainDao.insertMainData(weatherData!.main!);
-      await dao?.sysDao.insertSysData(weatherData!.sys!);
-      await dao?.weatherTableDao.insertWeather(weatherData!.weather![0]);
-
-      daoDb = DaoDb(await dao?.weatherDao.findWeatherData(), await dao?.coordDao.findCoordData(), await dao?.cloudsDao.findCloudsData(), await dao?.windDao.findWindData(), await dao?.mainDao.findMainData(), await dao?.sysDao.findSysData(), await dao?.weatherTableDao.findWeather());
-
-      print(daoDb?.coordDb?.lan);
-      isLoading = false;
-      notifyListeners();
-    } else {
-
-      print("weather is null");
-      daoDb = DaoDb(await dao?.weatherDao.findWeatherData(), await dao?.coordDao.findCoordData(), await dao?.cloudsDao.findCloudsData(), await dao?.windDao.findWindData(), await dao?.mainDao.findMainData(), await dao?.sysDao.findSysData(), await dao?.weatherTableDao.findWeather());
-
+    } catch (e) {
+      print("catch.........");
+      daoDb = DaoDb(
+          await dao?.weatherDao.findWeatherData(),
+          await dao?.coordDao.findCoordData(),
+          await dao?.cloudsDao.findCloudsData(),
+          await dao?.windDao.findWindData(),
+          await dao?.mainDao.findMainData(),
+          await dao?.sysDao.findSysData(),
+          await dao?.weatherTableDao
+              .findWeather());
       isLoading = true;
       notifyListeners();
     }
 
-
-
+    if (x == 1) {}
 
     return daoDb;
   }
