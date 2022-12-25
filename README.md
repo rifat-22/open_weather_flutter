@@ -1,16 +1,14 @@
 # weather_app
 
-A new Flutter project.
+![320832012_839649573933998_1545338444016828884_n](https://user-images.githubusercontent.com/42882492/209477812-41697c59-c8b7-4488-92bb-77a284ffc92d.jpg)
+Wireframe of the app. 
 
-## Getting Started
+1. Local Database : Floor (provides Sqlite abstraction)
+2. State Management tool: Provider
 
-This project is a starting point for a Flutter application.
+Steps to run 
 
-A few resources to get you started if this is your first Flutter project:
+1. To the app directory run `git clone https://github.com/rifat-22/open_weather_flutter.git`
+2. `flutter clean && flutter pub get && flutter run`
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
