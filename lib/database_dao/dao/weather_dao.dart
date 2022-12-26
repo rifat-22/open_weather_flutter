@@ -3,7 +3,7 @@
 import 'package:floor/floor.dart';
 
 
-import '../models/weather.dart';
+import '../../models/weather.dart';
 
 @dao
 abstract class WeatherDao {

@@ -1,11 +1,11 @@
 import 'dart:async';
 import 'package:floor/floor.dart';
 import 'package:sqflite/sqflite.dart' as sqflite;
-import 'package:weather_app/database_dao/clouds_dao.dart';
-import 'package:weather_app/database_dao/main_dao.dart';
-import 'package:weather_app/database_dao/sys_dao.dart';
-import 'package:weather_app/database_dao/weather_dao.dart';
-import 'package:weather_app/database_dao/wind_dao.dart';
+import 'package:weather_app/database_dao/dao/clouds_dao.dart';
+import 'package:weather_app/database_dao/dao/main_dao.dart';
+import 'package:weather_app/database_dao/dao/sys_dao.dart';
+import 'package:weather_app/database_dao/dao/weather_dao.dart';
+import 'package:weather_app/database_dao/dao/wind_dao.dart';
 import 'package:weather_app/models/clouds.dart';
 import 'package:weather_app/models/coord.dart';
 import 'package:weather_app/models/main_class.dart';
@@ -14,8 +14,8 @@ import 'package:weather_app/models/weather.dart';
 import 'package:weather_app/models/weather_data.dart';
 import 'package:weather_app/models/wind.dart';
 
-import 'coord_dao.dart';
-import 'weather_data_dao.dart';
+import '../dao/coord_dao.dart';
+import '../dao/weather_data_dao.dart';
 
 part 'database.g.dart'; // the generated code will be there
 

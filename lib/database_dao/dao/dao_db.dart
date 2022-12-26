@@ -1,10 +1,10 @@
-import '../models/clouds.dart';
-import '../models/coord.dart';
-import '../models/main_class.dart';
-import '../models/sys.dart';
-import '../models/weather.dart';
-import '../models/weather_data.dart';
-import '../models/wind.dart';
+import '../../models/clouds.dart';
+import '../../models/coord.dart';
+import '../../models/main_class.dart';
+import '../../models/sys.dart';
+import '../../models/weather.dart';
+import '../../models/weather_data.dart';
+import '../../models/wind.dart';
 
 class DaoDb {
   WeatherData? weatherDataDb;

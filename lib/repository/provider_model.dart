@@ -3,13 +3,13 @@ import 'package:flutter/material.dart';
 import 'package:weather_app/repository/repo_to_db.dart';
 
 import 'package:weather_app/repository/weather_repository.dart';
-import 'dao_db.dart';
+import '../database_dao/dao/dao_db.dart';
 
 class ProviderModel extends ChangeNotifier {
   final _service = WeatherRepository();
   bool isLoading = false;
   Dao? dao;
-  //local db
+  // local db
   DaoDb? daoDb;
   DataFlow? _dataFlow;
 

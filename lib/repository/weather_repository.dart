@@ -25,7 +25,7 @@ class WeatherRepository {
       statuscode = 200;
     } else {
       statuscode = 400;
-      throw Exception('Failed to load album');
+      throw Exception('Failed to load');
     }
     dataflow = DataFlow(weatherData, statuscode);
     return dataflow;

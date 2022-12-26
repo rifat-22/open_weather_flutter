@@ -3,7 +3,7 @@
 import 'package:floor/floor.dart';
 
 
-import '../models/sys.dart';
+import '../../models/sys.dart';
 
 @dao
 abstract class SysDao {

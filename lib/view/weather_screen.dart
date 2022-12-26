@@ -1,8 +1,9 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:floor/floor.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
-import 'package:weather_app/repository/dao_db.dart';
+import 'package:weather_app/database_dao/dao/dao_db.dart';
 import 'package:weather_app/repository/provider_model.dart';
 import '../common/color_util.dart';
 import '../models/weather_data.dart';
@@ -19,9 +20,6 @@ class WeatherScreen extends StatefulWidget {
 
 class _WeatherScreenState
     extends State<WeatherScreen> {
-  late Future<WeatherData> futureAlbum;
-  int isFetchedData = 0;
-  WeatherData? weatherData;
   DaoDb? daoDb;
 
   late double? feel_like_temp;
@@ -326,7 +324,7 @@ class _WeatherScreenState
                     "${daoDb?.mainClassDb?.humidity}",
                     "%"),
                 Visibility(
-                    visible: weatherData?.main
+                    visible: daoDb?.mainClassDb
                         ?.sea_level !=
                         null,
                     child: boxelement(
@@ -334,7 +332,7 @@ class _WeatherScreenState
                         "${daoDb?.mainClassDb?.sea_level}",
                         "hPa")),
                 Visibility(
-                    visible: weatherData?.main
+                    visible: daoDb?.mainClassDb
                         ?.grnd_level !=
                         null,
                     child: boxelement(
@@ -346,7 +344,6 @@ class _WeatherScreenState
           ),
           Container(
             padding: EdgeInsets.fromLTRB(6, 0, 6, 0),
-            // height: MediaQuery.of(context).size.height * 0.10,
             color: ColorUtil.bgGrey,
             width: double.infinity,
             child: Row(

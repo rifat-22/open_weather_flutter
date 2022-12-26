@@ -4,7 +4,7 @@ import 'package:weather_app/repository/provider_model.dart';
 import 'package:weather_app/repository/repo_to_db.dart';
 
 
-import 'database_dao/database.dart';
+import 'database_dao/database/database.dart';
 import 'view/weather_screen.dart';
 
 Future<void> main() async {

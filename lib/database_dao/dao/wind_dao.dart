@@ -3,7 +3,7 @@
 import 'package:floor/floor.dart';
 
 
-import '../models/wind.dart';
+import '../../models/wind.dart';
 
 @dao
 abstract class WindDao {
