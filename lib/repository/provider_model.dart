@@ -20,13 +20,9 @@ class ProviderModel extends ChangeNotifier {
   DataFlow? get dataFlow => _dataFlow;
 
   Future<DaoDb?> getWeatherData() async {
-    int x = 0;
-
     try {
       _dataFlow =
           await _service.fetchWeatherData();
-      print("hello");
-      print(dataFlow?.statuscode);
 
       if (dataFlow?.statuscode == 200) {
         print("weather data not null");
@@ -88,7 +84,6 @@ class ProviderModel extends ChangeNotifier {
             await dao?.weatherTableDao
                 .findWeather());
 
-        print(daoDb?.coordDb?.lan);
         isLoading = false;
         notifyListeners();
       } else {
@@ -118,12 +113,9 @@ class ProviderModel extends ChangeNotifier {
           await dao?.sysDao.findSysData(),
           await dao?.weatherTableDao
               .findWeather());
-      isLoading = true;
+      isLoading = false;
       notifyListeners();
     }
-
-    if (x == 1) {}
-
     return daoDb;
   }
 }

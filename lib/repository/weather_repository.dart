@@ -17,10 +17,8 @@ class WeatherRepository {
     WeatherData? weatherData;
     int statuscode = 0;
     DataFlow? dataflow;
-    print(response.statusCode);
 
     if (response.statusCode == 200) {
-      print("Yaaaaaayy");
 
       weatherData = WeatherData.fromJson(
           jsonDecode(response.body));
