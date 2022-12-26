@@ -1,6 +1,6 @@
 # Simple flutter weather_app
 
-<img src="https://user-images.githubusercontent.com/42882492/209477812-41697c59-c8b7-4488-92bb-77a284ffc92d.jpg" width="500" />'
+<img src="https://user-images.githubusercontent.com/42882492/209477812-41697c59-c8b7-4488-92bb-77a284ffc92d.jpg" width="300" />'
 
 Wireframe of the app.
 
