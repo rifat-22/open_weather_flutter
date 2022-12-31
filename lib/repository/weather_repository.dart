@@ -19,7 +19,6 @@ class WeatherRepository {
     DataFlow? dataflow;
 
     if (response.statusCode == 200) {
-
       weatherData = WeatherData.fromJson(
           jsonDecode(response.body));
       statuscode = 200;
